@@ -26,17 +26,16 @@ add_requires("levilamina 1.9.8")
 add_requires("levibuildscript")
 
 local get_version = function(os)
+    local ok, tags_or_err = pcall(function()
+        return os.iorun("git describe --tags --long")
+    end)
     local tags
-    try {
-        function ()
-            tags = os.iorun("git describe --tags --long")
-        end,
-        catch {
-            function (errors)
-                tags = "v1.0.0-0-g0000000"
-            end
-        }
-    }
+    if ok and tags_or_err then
+        tags = tags_or_err
+    else
+        tags = "v1.0.0-0-g0000000"
+    end
+    
     local tag, num_commits, commit_hash = tags:match("v?(%S+)-(%d+)-g([a-f0-9]+)")
     if num_commits and tonumber(num_commits) > 0 then
         local major, minor, patch = tag:match("(%d+)%.(%d+)%.(%d+)")
