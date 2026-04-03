@@ -40,8 +40,8 @@ void enable_endstone_server()
     ServerLoadEvent event{ServerLoadEvent::LoadType::Reload};
     server.getPluginManager().callEvent(event);
     // sync commands
-    for (auto *player : server.getOnlinePlayers()) {
-        player->updateCommands();
-    }
+    // for (auto *player : server.getOnlinePlayers()) {
+    //     player->updateCommands();
+    // }
 }
 }  // namespace endstone::core

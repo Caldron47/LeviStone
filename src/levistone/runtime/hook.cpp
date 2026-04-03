@@ -80,7 +80,7 @@ const std::unordered_map<std::string, void *> &get_targets()
     });
     return targets;
 }
-}
+}  // namespace details
 
 void install()
 {
@@ -90,7 +90,11 @@ void install()
     ll::thread::GlobalThreadPauser g;
 
     for (const auto &[name, detour] : detours) {
-        if (name.starts_with("ll_") || name == "EntryPoint") { // Workaround to fix LeviStone on Wine
+        if (name.starts_with("ll_") || name == "EntryPoint") {  // Workaround to fix LeviStone on Wine
+            continue;
+        }
+
+        if (name.find("CommandRegistry") != std::string::npos || name.find("MinecraftCommands") != std::string::npos) {
             continue;
         }
         if (auto it = targets.find(name); it != targets.end()) {
@@ -109,4 +113,4 @@ void uninstall()
     ll::thread::GlobalThreadPauser g;
     details::originals().clear();
 }
-}  // namespace endstone::hook
+}  // namespace endstone::runtime::hook
