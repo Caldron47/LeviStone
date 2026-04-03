@@ -94,7 +94,7 @@ void install()
             continue;
         }
 
-        if (name.find("CommandRegistry") != std::string::npos || name.find("MinecraftCommands") != std::string::npos) {
+        if (name.find("Command") != std::string::npos || name.find("Permission") != std::string::npos) {
             continue;
         }
         if (auto it = targets.find(name); it != targets.end()) {
